@@ -1,5 +1,7 @@
 import React,{Component} from 'react';
+import { bindActionCreators } from 'redux';
 import {connect} from 'react-redux';
+import { deleteCountry } from '../actions/index';
 
 class CountriesTable extends Component{
   constructor(props){
@@ -22,6 +24,7 @@ class CountriesTable extends Component{
           <td>{ country.name }</td>
           <td>{ country.capital }</td>
           <td>{ country.continent }</td>
+          <td><button className="btn btn-danger" onClick={()=>this.props.deleteCountry(country)}>Delete</button></td>
         </tr>
       );
     });
@@ -48,6 +51,10 @@ class CountriesTable extends Component{
   }
 }
 
+function mapDispatchToProps(dispatch){
+  return bindActionCreators({deleteCountry},dispatch);
+}
+
 function mapStateToProps(state){
   return{
     selectedContinent:state.selectedContinent,
@@ -55,4 +62,4 @@ function mapStateToProps(state){
   };
 }
 
-export default connect(mapStateToProps)(CountriesTable);
+export default connect(mapStateToProps,mapDispatchToProps)(CountriesTable);
