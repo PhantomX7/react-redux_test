@@ -2,6 +2,17 @@ import React,{Component} from 'react';
 import { bindActionCreators } from 'redux';
 import {connect} from 'react-redux';
 import { deleteCountry } from '../actions/index';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
+
+const Fade = ({ children, ...props }) => (
+  <CSSTransition
+    {...props}
+    timeout={250}
+    classNames="fade"
+  >
+    {children}
+  </CSSTransition>
+);
 
 class CountriesTable extends Component{
   constructor(props){
@@ -20,12 +31,14 @@ class CountriesTable extends Component{
 
     return filteredCountries.map((country)=> {
       return (
-        <tr key={ country.name }>
-          <td>{ country.name }</td>
-          <td>{ country.capital }</td>
-          <td>{ country.continent }</td>
-          <td><button className="btn btn-danger" onClick={()=>this.props.deleteCountry(country)}>Delete</button></td>
-        </tr>
+        <Fade key={ country.name }>
+          <tr >
+            <td>{ country.name }</td>
+            <td>{ country.capital }</td>
+            <td>{ country.continent }</td>
+            <td><button className="btn btn-danger" onClick={()=>this.props.deleteCountry(country)}>Delete</button></td>
+          </tr>
+        </Fade>
       );
     });
   }
@@ -34,18 +47,20 @@ class CountriesTable extends Component{
 
     return(
       <div>
+
         <table className="table table-striped">
         <thead>
           <tr>
             <th>Country</th>
             <th>Capital</th>
-            <th>Continent</th>
+            <th colSpan="2">Continent</th>
           </tr>
         </thead>
-        <tbody>
-          {this.renderRow()}
-        </tbody>
+          <TransitionGroup component="tbody" className='todo-list'>
+            {this.renderRow()}
+          </TransitionGroup>
       	</table>
+
       </div>
     );
   }

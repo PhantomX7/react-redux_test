@@ -15,10 +15,9 @@ import { ADD_COUNTRY, DELETE_COUNTRY } from '../actions/index';
 export default function(state = country,action){
   switch(action.type){
     case ADD_COUNTRY:
-    console.log(state);
-      let temp1=state.slice(0);
-      temp1.push(action.payload);
-      return temp1;
+      // let temp1=state.slice(0);
+      // temp1.push(action.payload);
+      return [...state, action.payload];
 
     case DELETE_COUNTRY:
       let temp2=state.slice(0);
